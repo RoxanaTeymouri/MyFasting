@@ -30,6 +30,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.clinic.myfasting.ui.AddFastingScreen
+import com.clinic.myfasting.ui.HistoryScreen
 import com.clinic.myfasting.ui.TrackerScreen
 import com.clinic.myfasting.ui.theme.MyFastingTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -104,12 +106,24 @@ data class BottomNavItem(
 
 @Composable
 fun FastNavHost(navController: NavHostController) {
+
+
     NavHost(navController, startDestination = "tracker") {
-        composable("tracker") { TrackerScreen()}
-        composable("history") { }
-        composable("guide") { }
+        composable("tracker") {
+            TrackerScreen(
+                onAddClick = {
+                    navController.navigate("add_fasting")
+                }
+            )
+        }
+        composable("add_fasting") {
+            AddFastingScreen()
+        }
+        composable("history") { HistoryScreen() }
+        composable("guide") {}
         composable("settings") { }
     }
+
 }
 
 

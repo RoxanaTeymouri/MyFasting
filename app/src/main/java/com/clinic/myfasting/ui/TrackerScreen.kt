@@ -1,67 +1,62 @@
+@file:JvmName("TrackerScreenKt")
+
 package com.clinic.myfasting.ui
 
+import androidx.compose.ui.res.colorResource
+import com.clinic.myfasting.R
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.clinic.myfasting.data.local.FastingSession
 import com.clinic.myfasting.viewModel.TrackerModel
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 
 
 @Composable
-fun TrackerScreen(trackerModel: TrackerModel = hiltViewModel()) {
-    val sessionList by trackerModel.sessions.collectAsState()
+fun TrackerScreen(
+    trackerModel: TrackerModel = hiltViewModel(),
+    onAddClick: () -> Unit = {}
+) {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text(
-            "Fasting History",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.headlineSmall
-        )
+    Box(modifier = Modifier.fillMaxSize()) {
 
-        LazyColumn {
-            item {
-                ListItems(sessionList)
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            Text(
+                "Fasting Tracker",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.headlineSmall
+            )
+
+
         }
-    }
-}
 
-@Composable
-fun ListItems(list: List<FastingSession>) {
-    Column(
-        modifier = Modifier.padding(16.dp)
-    ) {
-        list.forEach { session ->
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Text(
-                    text = "Start Time: ${session.startTime}",
-                    modifier = Modifier.padding(16.dp)
-                )
-            }
+        SmallFloatingActionButton(
+            onClick = { onAddClick() },
+            containerColor = colorResource(id = R.color.green),
+            contentColor = Color.White,
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+        ) {
+            Icon(Icons.Filled.Add, contentDescription = "Add Some thing")
         }
     }
 }

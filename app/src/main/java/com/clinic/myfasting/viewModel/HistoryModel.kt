@@ -11,9 +11,11 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class TrackerModel @Inject constructor(
+class HistoryModel @Inject constructor(
     private val fastingRepository: FastingRepository
 ) : ViewModel() {
 
-
+    val sessions = fastingRepository.getAllSessions().stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList()
+    )
 }
